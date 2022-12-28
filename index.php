@@ -6,18 +6,22 @@ require_once __DIR__.'/vendor/autoload.php';
 <body>
 <div class="flex-center position-ref full-height">
     <div class="top-right home">
-        <a href="view.php?name="$_GET['name']"">View</a>
+        <a href="view.php">View</a>
         <a href="index.php">Login</a>
         <a href="signup.php">Register</a>
     </div>
     <div class="content">
         <div>
-            <img src="img/dog2.png" style="display:block; margin-top: 300px;"/>
+            <img src="img/dog1.png" style="display:block; margin-top: 300px;" alt=""/>
         </div>
         <div class="m-b-md">
             <form name="login" action="index.php" method="post">
-                <p>Username : <input type=text name="name"></p>
-                <p>Password : <input type=password name="password"></p>
+                <p>Username : <label>
+                        <input type=text name="name">
+                    </label></p>
+                <p>Password : <label>
+                        <input type=password name="password">
+                    </label></p>
                 <p><input type="submit" name="submit" value="Log in">
                     <style>
                         input {padding:5px 15px; background:#ccc; border:0 none;
@@ -42,7 +46,7 @@ require_once __DIR__.'/vendor/autoload.php';
         </div>
 
 </body>
-</html>
+
 <?php
 header("Content-Type: text/html; charset=utf8");
 if (isset($_POST['submit'])) {
@@ -54,6 +58,7 @@ if (isset($_POST['submit'])) {
     if ($name && $password) {
         // $pdo = new database();
         $sql = "select * from user where name = '$name' and password='$password'";
+        /** @var TYPE_NAME $pdo */
         $result = $pdo->prepare($sql);
         $result->execute();
         // print_r($result) ;
@@ -63,7 +68,7 @@ if (isset($_POST['submit'])) {
             echo '<div class="sucess">welcome！ </div>';
             echo "
 			<script>
-			setTimeout(function(){window.location.href='view.php?name=" . $name . "';},6000);
+			setTimeout(function(){window.location.href='view.php?name=" . $name . "';},3000);
 			</script>";
             exit;
         } else {
@@ -74,7 +79,7 @@ if (isset($_POST['submit'])) {
         echo '<div class="warning">Incompleted form！ </div>';
         echo "
 <script>
-setTimeout(function(){window.location.href='login.php';},6000);
+setTimeout(function(){window.location.href='login.php';},3000);
 </script>";
     }
     unset($pdo);

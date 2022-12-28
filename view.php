@@ -10,6 +10,7 @@ $name = $_GET['name'];
     if (!$name) {
 	    echo '<a href="index.php">Log in</a>';
     } else {
+        echo "<a href='view.php?name=" . $name . "'>View</a>";
 	    echo "<a href='board.php?name=" . $name . "'>Write some messages</a>";
 	    echo '<a href="index.php">Log out</a>';
     }?>
@@ -19,7 +20,8 @@ $name = $_GET['name'];
     <?php
     session_start();
     include "db.php";
-    $sql = "select * from guestbook";
+    $sql = "SELECT * from guestbook";
+    /** @var TYPE_NAME $pdo */
     $result = $pdo->prepare($sql);
     $result->execute();
     // var_dump($result);
@@ -43,4 +45,3 @@ $name = $_GET['name'];
     ?>
 </div>
 </body>
-</html>

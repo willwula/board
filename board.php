@@ -16,9 +16,13 @@ $name = $_GET['name'];
                         <input type="hidden" name="name" value="<?=$name?>"> 
                         	<p><strong><?="Hi, " . $name?></strong></p>
                         	<p>SUBJECT</p>
-                        	<p><input type="text" name="subject"></p>
+                        	<p><label>
+                                    <input type="text" name="subject">
+                                </label></p>
                         	<p>CONTENT</p>
-                        	<p><textarea style="font-family: 'Nunito', sans-serif; font-size:20px; width:550px;height:100px;" name="content"></textarea></p>
+                        	<p><label>
+                                    <textarea style="font-family: 'Nunito', sans-serif; font-size:20px; width:550px;height:100px;" name="content"></textarea>
+                                </label></p>
                         	<p><input type="submit" name="submit" value="SEND">
                     <style>
                         input {padding:5px 15px; background:#FFCCCC; border:0 none;
@@ -43,7 +47,6 @@ $name = $_GET['name'];
                 </div>
 
 </body>
-</html>
 
 <?php
 //送出留言後會執行下面這段程式碼
@@ -53,12 +56,13 @@ if (isset($_POST['submit'])) {
 	$name = $_POST['name'];
 	$subject = $_POST['subject'];
 	$content = $_POST['content'];
-	$sql = "INSERT guestbook(name, subject, content, time) VALUES ('$name', '$subject', '$content', now())";
+	$sql = "INSERT into guestbook(name, subject, content, time) VALUES ('$name', '$subject', '$content', now())";
+    /** @var TYPE_NAME $pdo */
     $result = $pdo->prepare($sql);
-    $result->execute();
-	if (!$result) {
-		die();
-	} else {
+    if (!empty($result)) {
+        $result->execute();
+    }
+	if (!$result) die(); else {
     //若成功將留言存進資料庫，會自動跳轉到顯示留言的頁面
 		echo "
                 <script>

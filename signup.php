@@ -5,15 +5,19 @@ include 'style.html';
 <body>
 <div class="flex-center position-ref full-height">
     <div class="top-right home">
-        <a href="view.php?name="$_GET['name']>View</a>
+        <a href="view.php">View</a>
         <a href="index.php">Login</a>
         <a href="signup.php">Register</a>
     </div>
     <div class="content">
         <div class="m-b-md">
             <form name="signup" action="signup.php" method="post">
-                <p>Username : <input type=text name="name"></p>
-                <p>Password : <input type=password name="password"></p>
+                <p>Username : <label>
+                        <input type=text name="name">
+                    </label></p>
+                <p>Password : <label>
+                        <input type=password name="password">
+                    </label></p>
                 <p><input type="submit" name="submit" value="Sign up">
                     <style>
                         input {padding:5px 15px; background:#ccc; border:0 none;
@@ -38,32 +42,35 @@ include 'style.html';
         </div>
 
 </body>
-</html>
-<!--留言者按下Signup後接著會執行以下程式碼-->
+<!--按下Signup後接著會執行以下程式碼-->
 <?php
 header("Content-Type: text/html; charset=utf8");
 if (isset($_POST['submit'])) {
-    include 'db.php';
+    include "db.php";
     $name = $_POST['name'];
     $password = $_POST['password'];
     if ($name && $password) {
-        // $pdo = new database();
-        $sql = "select * from user where username = '$name'";
-        var_dump($pdo);
+        $sql = "SELECT * from user where name = '$name'";
         $result = $pdo->prepare($sql);
         $result->execute();
-//        var_dump($result);
         $rows = $result->rowCount();
-        var_dump($rows);
         if (!$rows) { //若這個username還未被使用過
-            $sql = "insert into user(id,username,password) values (null,'$name','$password')";
+            $sql = "INSERT INTO user(id,name,password) values (null,'$name','$password')";
             $data = ["$name","$password"];
             $result = $pdo->prepare($sql);
             try {
-                if ($result->execute($data)) {
+                if ($result->execute()) {
                     echo '新增成功';
+                    echo "
+                    <script>
+                    setTimeout(function(){window.location.href='index.php';},3000);
+                    </script>";
                 } else {
                     echo '新增失敗';
+                    echo "
+                <script>
+                setTimeout(function(){window.location.href='signup.php';},1000);
+                </script>";
                 }
             } catch (PDOException $e) {
                 echo '新增失敗';
@@ -79,11 +86,10 @@ if (isset($_POST['submit'])) {
     } else {
 
         echo '<div class="warning">Incompleted form！ </div>';
-        //以下為javascript語法，註冊成功後會自動跳轉到登入頁面
         echo "
-<script>
-setTimeout(function(){window.location.href='login.php';},2000);
-</script>";
+                <script>
+                setTimeout(function(){window.location.href='signup.php';},1000);
+                </script>";
     }
 }
 
