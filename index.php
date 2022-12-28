@@ -7,10 +7,13 @@ require_once __DIR__.'/vendor/autoload.php';
 <div class="flex-center position-ref full-height">
     <div class="top-right home">
         <a href="view.php?name="$_GET['name']"">View</a>
-        <a href="login.php">Login</a>
+        <a href="index.php">Login</a>
         <a href="signup.php">Register</a>
     </div>
     <div class="content">
+        <div>
+            <img src="img/dog2.png" style="display:block; margin-top: 300px;"/>
+        </div>
         <div class="m-b-md">
             <form name="login" action="index.php" method="post">
                 <p>Username : <input type=text name="name"></p>
